@@ -38,6 +38,7 @@ operations over `F_q`**, not bit operations.
 ## Layout
 
 ```
+check_tables_match.py         checks that the two parameter tables agree
 estimator/
   rp_estimator_parallel.py    threshold-partition search + G_1 recursion (reference)
   rp_estimator_parallel.cpp   same algorithm in C++ (used for the reported runs)
@@ -93,6 +94,14 @@ g++ -O3 -std=c++17 -pthread validation/rp_full_e2e.cpp -o rp_full_e2e
 
 Requirements: a C++17 compiler, and Python 3.8+ (standard library only — no
 third-party packages).
+
+Each estimator carries its own copy of the parameter table: the problem parameters, and the
+baseline values quoted from Liu et al. Nothing in the build forces the two copies to stay in
+step, so a check is provided:
+
+```sh
+python3 check_tables_match.py     # exits nonzero and names the row if they have drifted
+```
 
 ## Output columns
 
