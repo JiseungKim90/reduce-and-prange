@@ -43,6 +43,7 @@ estimator/
   rp_estimator_parallel.py    threshold-partition search + G_1 recursion (reference)
   rp_estimator_parallel.cpp   same algorithm in C++ (used for the reported runs)
 validation/
+  make_figures.py             regenerates the figures (bit gain vs m, n, t)
   rp_success_mc.py            coordinate-level Monte Carlo for one bounded pass
   sweep_success.py            curated sweep: MC vs G_1 vs 1-1/e vs (1-1/e)^L
   grid_success.py             recursion-only grid over rate/noise/levels/shapes
@@ -51,6 +52,9 @@ validation/
 logs/
   cpp_estimator_*.txt         C++ estimator output for the reported runs
   e2e_validation.txt          end-to-end validation output
+figures/
+  plot(*).png                 the figures as they appear in the paper
+  figure_data.csv             every swept point behind them
 ```
 
 The reported table values come from the C++ estimator, so only its logs are stored here. The
@@ -101,6 +105,18 @@ step, so a check is provided:
 
 ```sh
 python3 check_tables_match.py     # exits nonzero and names the row if they have drifted
+```
+
+The figures plot the bit gain `log2(T_Prange) - log2(T_RP)` against each of `m`, `n` and `t`,
+with Prange evaluated as the `k=0` case of the same estimator. Note that this baseline is
+plain Prange, whereas the comparison tables use the best estimate reported by Liu et al., so
+the two sets of numbers are not directly comparable. `figures/figure_data.csv` also records
+the ratio `log2(T_RP)/log2(T_Prange)` and an effective exponent, neither of which is plotted:
+the ratio is not monotone for reasons coming from its denominator, and the effective exponent
+falls below 2 and so cannot be read as a linear-algebra exponent.
+
+```sh
+python3 validation/make_figures.py --out figures
 ```
 
 ## Output columns
