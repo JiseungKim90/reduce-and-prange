@@ -49,9 +49,12 @@ validation/
                               solve, verify full residual weight
 logs/
   cpp_estimator_*.txt         C++ estimator output for the reported runs
-  py_estimator_rsd34.txt      Python estimator output (RSD-34 table)
   e2e_validation.txt          end-to-end validation output
 ```
+
+The reported table values come from the C++ estimator, so only its logs are stored here. The
+Python implementation is a reference for the same algorithm and is meant to be run rather than
+archived.
 
 Baseline values in the `old` and `newImp` columns are taken from the corresponding tables of
 Liu, Wang, Yang and Yu (ePrint 2022/712): the exact-noise tables for the SD rows and the
@@ -106,11 +109,10 @@ third-party packages).
 
 ## What the validation runs establish
 
-1. **The two implementations agree.** They are written independently from the same
-   specification and produce the same values. The C++ logs for the reported runs are
-   included under `logs/`; running the Python reference writes
-   `results/estimator_results.csv`, which can be compared against them directly. (Row
-   ordering in the C++ output follows asynchronous completion and is not significant.)
+1. **The two implementations agree.** They follow the same specification and produce the same
+   values, which we have checked against the stored C++ logs. Running the Python reference
+   writes `results/estimator_results.csv`, so the check can be repeated. (Row ordering in the
+   C++ output follows asynchronous completion and is not significant.)
 
 2. **The recursion matches an honest coordinate-level Monte Carlo.**
    `validation/rp_success_mc.py` and `sweep_success.py` sample coordinate sets
